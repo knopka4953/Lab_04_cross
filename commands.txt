@@ -1,0 +1,19 @@
+cd ("C:/Users/knopka/Desktop/Erlang/Lab04_cross").
+c ("room.erl").
+c ("cross.erl").
+c ("gamer.erl").
+Serv = cross:serverStart().
+G1 = gamer:startGame().
+G2 = gamer:startGame().
+
+R = spawn(room, main, [[], [{a, -1, -1, -1}, {b, -1, -1, -1}, {c, -1, -1, -1}]]).
+G1 = spawn(gamer, main, [R]).
+G2 = spawn(gamer, main, [R]).
+R ! {connect, G1}.
+R ! {connect, G2}.
+
+gamer:makeTurn(G1, {b, 2}).
+gamer:makeTurn(G2, {a, 1}).
+gamer:makeTurn(G1, {a, 3}).
+gamer:makeTurn(G2, {b, 1}).
+gamer:makeTurn(G1, {c, 1}).
